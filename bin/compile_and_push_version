@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ -f ./csv_rb.gemspec ]; then
+  # tar -C ./ -zxvf versions.tar.gz
+  gem build csv_rb.gemspec
+  gem push csv_rb-*.gem
+  mv csv_rb-*.gem versions/
+  tar czf versions.tar.gz versions/
+fi

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+if [[ -z "$1" ]] ; then
+  bundle exec rake spec
+else
+  if [[ $1 == "--unsafe-uniqueness" ]] ; then
+    UNSAFE_UNIQUE=true bundle exec rake spec
+  else
+    if [[ $2 == "--unsafe-uniqueness" ]] ; then
+      UNSAFE_UNIQUE=true
+    else
+      UNSAFE_UNIQUE=false
+    fi
+
+    for filename in $(find spec/* -wholename */$1_spec.rb); do
+      if ! UNSAFE_UNIQUE=$UNSAFE_UNIQUE bundle exec rake spec "$filename"; then
+        exit 1
+      fi
+    done
+  fi
+fi
+exit 0

@@ -12,6 +12,7 @@ tags
 .DS_Store
 tmp/
 log/.keep
+versions/
 
 coverage/*
 /.project
