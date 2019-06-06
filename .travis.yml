@@ -1,0 +1,18 @@
+bundler_args: --binstubs
+sudo: false
+language: ruby
+notifications:
+  irc: "irc.freenode.org#csvrb"
+  email:
+    recipients:
+      - digital.ipseity@gmail.com
+      - noel@peden.biz
+    on_success: always
+env:
+  - RAILS_VERSION=5.2
+rvm:
+  - 2.6.3
+before_install:
+  - gem update bundler
+script:
+  spec/ci.rb

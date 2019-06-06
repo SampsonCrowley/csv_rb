@@ -1,0 +1,1 @@
+csv << ['Bad', 'spellers', 'of', 'the', 'world', '...']

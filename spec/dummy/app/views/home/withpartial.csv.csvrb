@@ -1,0 +1,2 @@
+render :partial => 'cover_sheet', :locals => {:csv => csv}
+csv << ['Bad', 'spellers', 'of', 'the', 'world', '...']

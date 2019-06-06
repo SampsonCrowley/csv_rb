@@ -1,0 +1,4 @@
+csv << [@user.name]
+@likes.each do |like|
+  csv << [like.name]
+end
