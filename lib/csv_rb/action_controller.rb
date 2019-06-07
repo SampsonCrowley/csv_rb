@@ -29,17 +29,19 @@ ActionController::Renderers.add :csv do |filename, options|
   file_name = "#{options.delete(:filename) || filename.gsub(/^.*\//,'')}#{options.delete(:with_time) ? "-#{Time.zone.now.to_s}" : ''}.csv".sub(/(\.csv)+$/, '.csv')
 
   response.headers["Content-Type"] = "text/csv; charset=utf-8"
-  
+
   unless options.delete(:allow_cache)
+    with_compression = !options.delete(:skip_compression)
+
     expires_now
     response.headers["X-Accel-Buffering"] = 'no'
     response.headers["Content-Type"] = "text/csv; charset=utf-8"
-    response.headers["Content-Encoding"] = 'deflate'
+    response.headers["Content-Encoding"] = 'deflate' if with_compression
     response.headers["Content-Disposition"] = %(attachment; filename="#{file_name}")
 
 
     return self.response_body = Enumerator.new do |y|
-      csv = CSVRb::StreamCSVDeflator.new(y)
+      csv = CSVRb::StreamCSVDeflator.new(y, with_compression)
       instance_eval lookup_context.find_template(options[:template], options[:prefixes], options[:partial], options.dup.merge(formats: [:csv])).source
       csv.close
     end

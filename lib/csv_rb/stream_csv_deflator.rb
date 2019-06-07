@@ -1,7 +1,8 @@
 module CSVRb
   class StreamCSVDeflator
-    def initialize(enum)
+    def initialize(enum, with_compression = true)
       @enum = enum
+      @with_compression = with_compression
       @deflator = Zlib::Deflate.new
     end
 
@@ -10,12 +11,13 @@ module CSVRb
     end
 
     def set(value)
-      y << value
+      y << compress(value)
     end
 
     def stream(row)
-      v = CSV.generate_line(row, force_quotes: true, encoding: 'utf-8')
-      y << @deflator.deflate(v, Zlib::SYNC_FLUSH)
+      y << compress(
+        CSV.generate_line(row, force_quotes: true, encoding: 'utf-8')
+      )
     end
 
     def <<(row)
@@ -23,7 +25,15 @@ module CSVRb
     end
 
     def close
-      y << @deflator.flush(Zlib::FINISH)
+      y << @deflator.flush(Zlib::FINISH) if @with_compression
     end
+
+    private
+      def compress(value)
+        @with_compression \
+          ? @deflator.deflate(value, Zlib::SYNC_FLUSH) \
+          : value
+      end
+
   end
 end

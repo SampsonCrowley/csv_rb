@@ -1,9 +1,13 @@
 # Change log
 
-**June 6, 2019**: 5.2.1 release
+**June 7, 2019**: 5.2.3 release
 
-- Initial posting.
+- Make compression on streaming toggleable
 
 **June 7, 2019**: 5.2.2 release
 
 - Add csv.set method
+
+**June 6, 2019**: 5.2.1 release
+
+- Initial posting.
