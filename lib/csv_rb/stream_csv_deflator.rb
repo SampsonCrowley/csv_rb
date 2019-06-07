@@ -9,6 +9,10 @@ module CSVRb
       @enum
     end
 
+    def set(value)
+      y << value
+    end
+
     def stream(row)
       v = CSV.generate_line(row, force_quotes: true, encoding: 'utf-8')
       y << @deflator.deflate(v, Zlib::SYNC_FLUSH)

@@ -16,6 +16,13 @@ describe 'csvrb template handler' do
     VT.new(src, [])
   end
 
+  let( :set_template ) do
+    src = <<-RUBY
+      csv.set CSV.generate_line(['TEST', 'STUFF'], encoding: 'utf-8', force_quotes: true)
+    RUBY
+    VT.new(src, [])
+  end
+
   context "Rails #{Rails.version}" do
     # for testing if the author is set
     # before do
@@ -29,6 +36,13 @@ describe 'csvrb template handler' do
     it "compiles to an csv spreadsheet" do
       csv = nil
       eval( AB.new.call template )
+      expect{ csv = CSV.parse(csv) }.to_not raise_error
+      expect(csv[0][0]).to eq('TEST')
+    end
+
+    it "accepts a full CSV string" do
+      csv = nil
+      eval( AB.new.call set_template )
       expect{ csv = CSV.parse(csv) }.to_not raise_error
       expect(csv[0][0]).to eq('TEST')
     end

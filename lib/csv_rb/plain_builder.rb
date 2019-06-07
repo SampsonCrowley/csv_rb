@@ -4,6 +4,10 @@ module CSVRb
       @value ||= "#{}"
     end
 
+    def set(value)
+      @value = value
+    end
+
     def stream(row)
       value << CSV.generate_line(row, force_quotes: true, encoding: 'utf-8')
     end
