@@ -28,8 +28,10 @@ ActionController::Renderers.add :csv do |filename, options|
   options[:locals] ||= {}
   file_name = "#{options.delete(:filename) || filename.gsub(/^.*\//,'')}#{options.delete(:with_time) ? "-#{Time.zone.now.to_s}" : ''}.csv".sub(/(\.csv)+$/, '.csv')
 
-
-  # if options.delete(:should_stream)
+  response.headers["Content-Type"] = "text/csv; charset=utf-8"
+  
+  unless options.delete(:allow_cache)
+    expires_now
     response.headers["X-Accel-Buffering"] = 'no'
     response.headers["Content-Type"] = "text/csv; charset=utf-8"
     response.headers["Content-Encoding"] = 'deflate'
@@ -41,11 +43,11 @@ ActionController::Renderers.add :csv do |filename, options|
       instance_eval lookup_context.find_template(options[:template], options[:prefixes], options[:partial], options.dup.merge(formats: [:csv])).source
       csv.close
     end
-  # else
-  #   disposition = options.delete(:disposition) || 'attachment'
-  #
-  #   send_data render_to_string(options), filename: file_name, type: Mime[:csv], disposition: disposition
-  # end
+  else
+    disposition = options.delete(:disposition) || 'attachment'
+
+    send_data render_to_string(options), filename: file_name, type: Mime[:csv], disposition: disposition
+  end
 end
 
 # For respond_to default
