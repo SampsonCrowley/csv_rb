@@ -14,6 +14,7 @@ module ActionView
 
         def call(template)
           builder = StringIO.new
+          builder << "# encoding: utf-8\n"
           builder << "require 'csv';"
           builder << "require 'csv_rb/plain_builder';"
           builder << "csv ||= CSVRb::PlainBuilder.new;"
