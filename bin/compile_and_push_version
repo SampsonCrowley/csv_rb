@@ -4,6 +4,12 @@ if [ -f ./csv_rb.gemspec ]; then
   # tar -C ./ -zxvf versions.tar.gz
   gem build csv_rb.gemspec
   gem push csv_rb-*.gem
+  rm -rf versions/
+  if [ -f versions.tar.gz ]; then
+    tar xvzf versions.tar.gz
+  else
+    mkdir versions
+  fi
   mv csv_rb-*.gem versions/
   tar czf versions.tar.gz versions/
 fi

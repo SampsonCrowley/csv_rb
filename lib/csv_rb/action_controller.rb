@@ -42,7 +42,7 @@ ActionController::Renderers.add :csv do |filename, options|
 
     return self.response_body = Enumerator.new do |y|
       csv = CSVRb::StreamCSVDeflator.new(y, with_compression)
-      instance_eval lookup_context.find_template(options[:template], options[:prefixes], options[:partial], options.dup.merge(formats: [:csv])).source
+      view_context.instance_eval lookup_context.find_template(options[:template], options[:prefixes], options[:partial], options.dup.merge(formats: [:csv])).source
       csv.close
     end
   else
