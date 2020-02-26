@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + Dir['[A-Z]*'] - ['Guardfile']
   s.test_files = Dir["spec/**/*"] + ['Guardfile']
 
-  s.add_dependency "actionpack", "~> 5.2"
+  s.add_dependency "actionpack", ">= 5.2"
   s.add_dependency "csv", ">= 3.1.0"
 
   s.add_development_dependency "bundler"
