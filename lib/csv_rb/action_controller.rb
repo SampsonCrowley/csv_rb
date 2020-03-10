@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'action_controller'
-require 'csv_rb/stream_csv_deflator'
+require 'csv_rb/stream_builder'
 unless Mime[:csv]
   Mime::Type.register 'text/csv', :csv
 end
@@ -41,7 +41,7 @@ ActionController::Renderers.add :csv do |filename, options|
 
 
     return self.response_body = Enumerator.new do |y|
-      csv = CSVRb::StreamCSVDeflator.new(y, with_compression)
+      csv = CSVRb::StreamBuilder.new(y, with_compression)
       view_context.instance_eval lookup_context.find_template(options[:template], options[:prefixes], options[:partial], options.dup.merge(formats: [:csv])).source
       csv.close
     end
