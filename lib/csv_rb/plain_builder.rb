@@ -1,19 +1,17 @@
+require 'csv_rb/stream_builder'
+
 module CSVRb
-  class PlainBuilder
+  class PlainBuilder < StreamBuilder
+    def initialize(*)
+      super("#{}", false)
+    end
+
     def value
-      @value ||= "#{}"
+      y
     end
 
-    def set(value)
-      @value = value
-    end
-
-    def stream(row)
-      value << CSV.generate_line(row, force_quotes: true, encoding: 'utf-8')
-    end
-
-    def <<(row)
-      stream(row)
+    def set(complete_value)
+      @enumerator = complete_value || "#{}"
     end
 
     def close

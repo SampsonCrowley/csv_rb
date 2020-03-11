@@ -1,13 +1,13 @@
 module CSVRb
   class StreamBuilder
-    def initialize(enum, with_compression = true)
-      @enum = enum
+    def initialize(enumerator, with_compression = true)
+      @enumerator = enumerator
       @with_compression = with_compression
-      @deflator = Zlib::Deflate.new
+      @deflator = Zlib::Deflate.new if @with_compression
     end
 
     def y
-      @enum
+      @enumerator
     end
 
     def set(value)
