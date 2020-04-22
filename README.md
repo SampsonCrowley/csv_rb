@@ -1,12 +1,9 @@
-CSVRb-Rails &mdash; Streaming CSVs with rbuy templates
+CSVRb-Rails &mdash; Streaming CSVs with ActionView templates
 ===================================================
 
-[![Gem
-Version](https://badge.fury.io/rb/csv_rb.svg)](http://badge.fury.io/rb/csv_rb)
-[![Coverage
-
+[![Gem Version](https://badge.fury.io/rb/csv_rb.svg)](http://badge.fury.io/rb/csv_rb)
 ![Total downloads](http://ruby-gem-downloads-badge.herokuapp.com/csv_rb?type=total)
-![Downloads for latest release](http://ruby-gem-downloads-badge.herokuapp.com/csv_rb/0.5.1?label=0.5.1)
+![Downloads for latest release](http://ruby-gem-downloads-badge.herokuapp.com/csv_rb/6.0.2.4?label=6.0.2.4)
 
 ## Installation
 
@@ -19,7 +16,15 @@ gem 'csv_rb'
 
 ## Requirements
 
-* Rails 5.2 (tested)
+* \>= Rails 5.2
+  - Latest Version Tested With:
+    - 5.2
+    - 6.0
+* \>= Ruby 2.5
+  - Latest Version Tested With:
+    - 2.6
+    - 2.7
+
 
 ## Usage
 
@@ -89,12 +94,12 @@ format.csv {
 }
 ```
 
-If you use `render csv:` the gem will try to guess the file name:
+If you use `render csv:` the gem will try to guess the file name based on the `:csv` key value
 
 ```ruby
-# filename of 'buttons'
+# filename of 'buttons.csv'
 render csv: 'buttons'
-# filename of 'latest_buttons'
+# filename of 'latest_buttons.csv'
 render csv: 'latest_buttons', template: 'featured/latest'
 ```
 
@@ -110,13 +115,15 @@ Partials work as expected, but you must pass in relevant spreadsheet variables:
 
 ```ruby
 csv << ['BEFORE']
-render :partial => 'looper_partial', :locals => { csv: csv }
+render :partial => 'csv_partial', :locals => { csv: csv }
 csv << ['AFTER']
 ```
 
 With the partial simply using the passed variables:
 
 ```ruby
+# _csv_partial.csv.csvrb
+
 csv << ['Partial Content']
 ```
 
@@ -130,8 +137,8 @@ class UserMailer < ActionMailer::Base
     csv = render_to_string layout: false, handlers: [:csvrb], formats: [:csv], template: "users/export", locals: {users: users}
     attachment = Base64.encode64(csv)
     attachments["Users.csv"] = {mime_type: Mime[:csv], content: attachment, encoding: 'base64'}
-    # For rails 4 use Mime::csv
-    # attachments["Users.csv"] = {mime_type: Mime::csv, content: attachment, encoding: 'base64'}
+    # For rails 4 use Mime::CSV
+    # attachments["Users.csv"] = {mime_type: Mime::CSV, content: attachment, encoding: 'base64'}
     # self.instance_variable_set(:@_lookup_context, nil) # If attachments are rendered as content, try this and open an issue
     ...
   end
@@ -139,8 +146,8 @@ end
 ```
 
 * If the route specifies or suggests the `:csv` format you do not need to specify `formats` or `handlers`.
-* If the template (`users/export`) can refer to only one file (the csv.csvrb template), you do not need to specify `handlers`, provided the `formats` includes `:csv`.
-* Specifying the encoding as 'base64' can avoid UTF-8 errors.
+* If the template (`users/export` in this case) can refer to only one file (`users/export.csv.csvrb`), you do not need to specify `handlers`, provided the `formats` key includes `:csv`.
+* Specifying the encoding as 'base64' can help avoid UTF-8 errors.
 
 ### Testing
 

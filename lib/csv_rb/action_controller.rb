@@ -61,9 +61,9 @@ else
     def to_csv
       @_action_has_layout = false
       if @default_response
-        @default_response.call(options)
+        @default_response.call(**options)
       else
-        controller.render({csv: controller.action_name}.merge(options))
+        controller.render csv: controller.action_name, **options
       end
     end
   end

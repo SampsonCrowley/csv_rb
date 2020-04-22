@@ -3,7 +3,7 @@ require 'csv_rb/stream_builder'
 module CSVRb
   class PlainBuilder < StreamBuilder
     def initialize(*)
-      super("#{}", false)
+      super(+"", false)
     end
 
     def value
@@ -11,7 +11,7 @@ module CSVRb
     end
 
     def set(complete_value)
-      @enumerator = complete_value || "#{}"
+      @enumerator = complete_value || +""
     end
 
     def close
