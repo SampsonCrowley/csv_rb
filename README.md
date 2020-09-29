@@ -3,7 +3,7 @@ CSVRb-Rails &mdash; Streaming CSVs with ActionView templates
 
 [![Gem Version](https://badge.fury.io/rb/csv_rb.svg)](http://badge.fury.io/rb/csv_rb)
 ![Total downloads](http://ruby-gem-downloads-badge.herokuapp.com/csv_rb?type=total)
-![Downloads for latest release](http://ruby-gem-downloads-badge.herokuapp.com/csv_rb/6.0.2.4?label=6.0.2.4)
+![Downloads for latest release](http://ruby-gem-downloads-badge.herokuapp.com/csv_rb/6.0.3.1?label=6.0.3.1)
 
 ## Installation
 

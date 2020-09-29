@@ -5,8 +5,8 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-ENV["RAILS_VERSION"] ||= '6.0.2'
-gem 'rails', "~> 6.0"
+ENV["RAILS_VERSION"] ||= '6.0.3'
+gem 'rails', '~> 6.0.3', '>= 6.0.3.1'
 gem 'responders', '~> 3.0'
 
 # jquery-rails is used by the dummy application
